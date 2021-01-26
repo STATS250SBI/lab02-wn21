@@ -1,0 +1,258 @@
+---
+title: "STATS 250 Lab 2"
+author: "Lab Dream Team"
+date: "Week of 2/1/2021"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    theme: lumen
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Learning Objectives
+
+## Statistical Learning Objectives
+1. Learn how to analyze categorical variables by creating a frequency table
+1. Learn how to analyze two categorical variables by creating a two-way frequency table
+1. Learn how to make a graphical display of a categorical variable (bar chart) and of a numerical variable (histogram and boxplot)
+1. Discuss the five-number summary of a variable
+
+## R Learning Objectives
+1. Learn how to make a bar chart in R
+1. Learn how to make a frequency table and a two-way frequency table in R
+1. Learn how to make a boxplot in R
+1. Learn how to find the five-number summary of a variable, and find a specific numeric summary in R
+1. Learn how to make a histogram in R
+
+## Functions covered in this lab
+1. `table()`
+1. `barplot()`
+1. `summary()`
+1. `boxplot()`
+1. `min()`, `mean()`, `median()`, `max()`, `sd()`, `IQR()`
+1. `hist()`
+
+## Weekly Advice
+Practice makes perfect. The first time you try something new, it might not go as expected. That's okay. Review your work, ask a friend, ask your instructor, take a minute and think. As we practice more and more together, it will get easier. 
+
+<hr />
+
+# Lab Tutorial
+
+We're back to hanging out with our penguin friends.
+
+```{r penguins}
+penguins <- read.csv("penguins.csv")
+```
+
+As we learned last week, this data set has several variables, some categorical, and some quantitative. We will discuss how to visualize both categorical and quantitative data. 
+
+## Frequency Tables
+
+Let's start with the `species` variable. Is this a categorical or quantitative variable? How do you know?
+
+To make a frequency table of a categorical variable, we use the `table()` function:
+
+```{r table}
+table(penguins$species)
+```
+
+So, there are 119 Gentoo penguins in the data. 
+
+Notice that inside the table function, we have something that looks a little weird. We wrote `penguins$species`. This is how we tell R to use the `species` variable *inside the data frame* `penguins`. The dollar sign ($) tells R to look inside the data frame `penguins` for the column called `species`. 
+
+It's very important that you tell R *which data frame* the variable you're interested in is from. Let's see what happens when we don't:
+
+```{r noDollarSign, error = T}
+species
+```
+
+Because we don't have anything called `species` in our environment (there's nothing called `species` in the environment pane), R doesn't know what we're talking about! `species` only exists inside of `penguins`.
+
+We can also make "two-way" frequency tables (sometimes called "contingency tables") to summarize counts for two categorical variables:
+
+```{r twoWayTable}
+table(penguins$species, penguins$island)
+```
+
+So it looks like all the Gentoo penguins in our data live on Biscoe island.
+
+Remember that data is **r**eally **c**ool, so the first variable you give to `table()` is in the **r**ows of the table, and the second is in the **c**olumns.
+
+Notice that we separated the two variables inside of `table()` with a comma -- it's important to remember this! Each of these variables is an *argument* to the `table()` function, and we separate arguments with commas.
+
+## Bar Charts in R
+
+Let's explore our `penguins` data by making a plot that will help us visualize a categorical variable. We'll start by looking at the number of penguins observed of each species.
+
+```{r speciesPlot}
+barplot(table(penguins$species),
+     xlab = "Species",
+     ylab = "Frequency",
+     main = "Bar Chart of Number of Penguins of Each Species Observed",
+     col = c("darkorange1", "mediumorchid2", "darkcyan"))
+```
+
+Notice that we included the table from earlier in our code! This is how we will make a Bar Chart in R. Also notice that we included some arguments, such as `xlab`, the label on the x (or horizontal) axis, `ylab`, the label on the y (or vertical) axis, `main`, the title of the graph, and a nice way to add some fun to an otherwise boring plot - `col` for colors. We have three species of penguins, so we picked out three colors that we thought best represented each species. There are lots and lots of colors that you can try. We will show you more about colors next week!
+
+## Numerical Summaries
+
+Let's start with the `flipper_length_mm` variable. Is this a categorical or quantitative variable? How do you know?
+
+We can use R to summarize data numerically. We'll use the `summary()` function to do that for a given variable. Here, we'll summarize the `flipper_length_mm` variable, which is the length of the penguins' flippers (in millimeters). 
+
+```{r flipperSummaries}
+summary(penguins$flipper_length_mm)
+```
+
+R gives us 6 numbers: the minimum (shortest) flipper length, the first quartile, the median (middle) flipper length, the mean (average) flipper length, the third quartile, and the maximum (longest) flipper length. 
+
+You can always get just the one numerical summary you're looking for using the function for that specific summary:
+```{r summaryFunctions, error = T}
+min(penguins$flipper_length_mm)
+mean(penguins$flipper_length_mm)
+median(penguins$flipper_length_mm)
+max(penguins$flipper_length_mm)
+sd(penguins$flipper_length_mm)
+IQR(penguins$flipper_length_mm)
+```
+
+## Boxplots in R
+
+One type of graphical display for a quantitative variable is a boxplot. The command for making a boxplot in R is pretty simple: it's just `boxplot()`. To make a boxplot of a single variable, just give R the name of the data set, a dollar sign ($), then the name of the variable. Also provide the arguments `main` and `ylab` for a plot title and y-axis label.
+
+```{r boxplot}
+boxplot(penguins$flipper_length_mm,
+        main = "Boxplot of Penguin Flipper Length",
+        ylab = "Flipper Length (mm)")
+```
+
+## Histograms in R
+
+Another type of graphical display for a quantitative variable is a histogram. Histograms in R are also pretty easy -- you just use the `hist()` function.
+
+```{r hist}
+hist(penguins$flipper_length_mm)
+```
+
+So here we've got a histogram. Notice that we didn't provide the `main`, `xlab`, and `ylab` arguments that we'd normally use for a plot title and an axis label, but R still gave us a title and labels. This is nice, but the labels are *horrible*: nobody (other than you) knows what `penguin$flipper_length_mm` means, so we don't want to use that as a title or axis label. The moral of the story is to *always provide `main`, `xlab`, and `ylab` arguments when making a plot!*
+
+Here's something better:
+
+```{r histLabels}
+hist(penguins$flipper_length_mm,
+     main = "Histogram of Penguin Flipper Length",
+     xlab = "Flipper Length (mm)")
+```
+
+## How to find help in R
+R has built-in "documentation" for every function. If you want to find that documentation, you can Google it, but that takes too long. So it's better to use R's built in help! In the R console, just type a question mark `?` followed by the name of the function you want help with, then hit enter. For example, `?hist` will bring up the documentation for the `hist()` function. 
+
+At the end of the help file you *may* find an example of how to use the function. These examples are generally super helpful! You can directly run them using the `example()` function -- e.g., `example(hist)`.
+
+The most useful feature of help is a list of a function's argumendsjdsts what they do. You may not be able to fully understand some of the terms in the documentation just yet, but try it out and your lab instructor will be able to help!
+
+<hr />
+
+## Try It!
+Depending on your instruction method (in person, synchronous remote, asynchronous remote), complete the following exercises collaboratively. 
+
+1. **In person:** Form groups of 2-4 with those around you (maintaining physical distance). Your instructor will provide additional details.
+1. **Synchronous remote:** You will be placed in a Zoom breakout room to work together in small groups. 
+1. **Asynchronous remote:** Join a Piazza lab group for asynchronous collaboration.
+
+**Collaborators:** If applicable, replace this text with the names of anyone you collaborated with on this project.
+
+In Try It Questions 1 - 5, we'll be using a data set we'll call `a2trees` that contains information about a subset of the top 9 types of trees planted around Ann Arbor in 2009. The city maintains an interactive map of all such trees at [this link](https://gisappsecure.ewashtenaw.org/Html5Viewer_2_11/index.html?viewer=A2Trees.A2Trees) -- you should check it out. They're updating the database this year, too!
+
+> **1.** We'll start by reading in the data. The data are stored in a file called `a2trees_clean.csv`. We give the name of this file (*in quotes!*) to the `read.csv()` function. Modify the code below to call the data set `a2trees`. 
+
+*Answer:* 
+
+```{r tryIt1, error = T}
+
+```
+
+> **2.** Before we make graphs or numerical summaries, give an overview of the data set in 2-3 sentences. Use whatever tools you like to preview the contents of the data. The goal is for you to understand what's going on in the data set before working with it. Include any code in the chunk below. (*Disclaimer: There's not a right or wrong answer here -- just explore.*) You might want to revisit functions used in lab 1.
+
+*Answer:* 
+
+```{r tryIt2, error = T}
+
+```
+
+> **3.** Summarize the variable `ConditionTreeHealth`. If it is a numeric variable, be sure to discuss the mean, median, IQR, mix, and max. If it is a categorical variable, be sure to discuss the varying factors as well as the quantity in each factor.
+
+*Answer:* 
+
+```{r tryIt3, error = T}
+
+```
+
+> **4.** Make a graphical display for the variable `ConditionTreeHealth`. Be sure to include a proper title for your graphical display.
+
+*Answer:* 
+
+```{r tryIt4, error = T}
+
+```
+
+> **5.** Make a two-way contingency table for tree health and common genus.
+
+*Answer:* 
+
+```{r tryIt5}
+# Replace this comment with code required for Try It 5. (Remember that this text is a comment, so R ignores it; you can delete it if you want.)
+
+```
+
+In Try It Questions 6 - 7, we will be revisiting the `penguins` data set from earlier. We have already used this data set so it should still be in your environment pane on the top right corner. Verify this is the case.
+
+> **6.** Summarize the variable `bill_length_mm`. If it is a numeric variable, be sure to discuss the mean, median, IQR, mix, and max. If it is a categorical variable, be sure to discuss the varying factors as well as the quantity in each factor.
+
+```{r tryIt6, error = T}
+
+```
+
+> **7.** Make a graphical display for the variable `bill_length_mm`. Be sure to include a proper title for your graphical display.
+
+*Answer:* 
+
+```{r tryIt7, error = T}
+
+```
+
+## Homework
+In the Try It, you played around a little with data about tuition costs. Now, we're going to have you apply this to your weekly Homework. You'll find this on Question xxxxxxxx on Homework xxxxxx. We've left you some space in case you need to run some R code. 
+
+
+```{r homeworkXScratchWork}
+
+```
+
+## Wrap-Up and Submission
+
+At the top of the document, make sure you've changed the `author` field to your name (in quotes!). If you'd like, change the date as well.
+
+When you've finished the lab, click the **Knit** button one last time.
+
+
+### Submission instructions
+#### If you're using RStudio Cloud
+1. In the Files pane, check the box next to `lab02report.html`.
+2. Click More > Export...
+3. Click Download and save the file on your computer in a folder you'll remember and be able to find later. You can just call the file `lab03report.html` or whatever else you'd like (as  long as you remember what you called it).
+
+#### If you're using RStudio installed on your computer
+1. locate the `lab03report.html` file on your computer. The file will be saved in the location indicated at the top of the files pane.
+
+#### Submission to Canvas
+
+1. Click the "Assignments" panel on the left side of the page. Scroll to find "Lab 3", and open the assignment. Click "Submit Assignment". 
+2. Towards the bottom of the page, you'll be able to choose `lab02report.html` from the folder you saved it in from RStudio Cloud or noted if you're using RStudio Desktop. **You will only be able to upload a .html file -- do not upload any other file type.**
+3. Click "Submit Assignment". You're done! 
