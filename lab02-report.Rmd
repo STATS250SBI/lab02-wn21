@@ -62,7 +62,7 @@ Replace this text with your 2-3 sentence overview of the data set.
 ## Question 3
 
 :::{.question}
-Summarize the variable `ConditionTreeHealth`. If it is a numeric variable, be sure to discuss the mean, median, IQR, mix, and max. If it is a categorical variable, be sure to discuss the varying factors as well as the quantity in each factor.
+Summarize the variable `ConditionTreeHealth`. If it is a numeric variable, be sure to discuss the mean, median, IQR, mix, and max. If it is a categorical variable, be sure to discuss the variable's levels (possible values) as well as the quantity of each level.
 :::
 
 :::{.answer}
@@ -77,7 +77,7 @@ Replace this text with your discussion on the variable `ConditionTreeHealth`.
 ## Question 4
 
 :::{.question}
-Make a graphical display for the variable `ConditionTreeHealth`. Be sure to include a proper title for your graphical display.
+Make an appropriate graphical display for the variable `ConditionTreeHealth`. Be sure to include a proper title for your graphical display.
 :::
 
 :::{.answer}
@@ -105,7 +105,7 @@ In Try It Questions 6 - 7, we will be revisiting the `penguins` data set from ea
 ## Question 6
 
 :::{.question}
-Summarize the variable `bill_length_mm`. If it is a numeric variable, be sure to discuss the mean, median, IQR, mix, and max. If it is a categorical variable, be sure to discuss the varying factors as well as the quantity in each factor.
+Summarize the variable `bill_length_mm`. If it is a numeric variable, be sure to discuss the mean, median, IQR, mix, and max. If it is a categorical variable, be sure to discuss the variable's levels (possible values) as well as the quantity of each level.
 :::
 
 :::{.answer}
@@ -120,7 +120,7 @@ Replace this text with your discussion on the variable `bill_length_mm`.
 ## Question 7
 
 :::{.question}
-Make a graphical display for the variable `bill_length_mm`. Be sure to include a proper title for your graphical display.
+Make an appropriate graphical display for the variable `bill_length_mm`. Be sure to include a proper title for your graphical display.
 :::
 
 :::{.answer}

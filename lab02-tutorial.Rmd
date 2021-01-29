@@ -36,7 +36,7 @@ knitr::opts_chunk$set(echo = TRUE)
 We're back to hanging out with our penguin friends.
 
 ```{r penguins}
-penguins <- read.csv("penguins.csv")
+penguins <- read.csv("penguins.csv", stringsAsFactors = TRUE)
 ```
 
 As we learned last week, this data set has several variables, some categorical, and some quantitative. We will discuss how to visualize both categorical and quantitative data. 
@@ -61,7 +61,6 @@ It's very important that you tell R *which data frame* the variable you're inter
 species
 ```
 
-Because we don't have anything called `species` in our environment (there's nothing called `species` in the environment pane), R doesn't know what we're talking about! `species` only exists inside of `penguins`.
 
 We can also make "two-way" frequency tables (sometimes called "contingency tables") to summarize counts for two categorical variables:
 
@@ -69,11 +68,8 @@ We can also make "two-way" frequency tables (sometimes called "contingency table
 table(penguins$species, penguins$island)
 ```
 
-So it looks like all the Gentoo penguins in our data live on Biscoe island.
+Data is **R**eally **C**ool, so the first variable you give to `table()` is in the **r**ows of the table, and the second is in the **c**olumns.
 
-Remember that data is **r**eally **c**ool, so the first variable you give to `table()` is in the **r**ows of the table, and the second is in the **c**olumns.
-
-Notice that we separated the two variables inside of `table()` with a comma -- it's important to remember this! Each of these variables is an *argument* to the `table()` function, and we separate arguments with commas.
 
 ## Bar Charts in R
 
@@ -99,9 +95,8 @@ We can use R to summarize data numerically. We'll use the `summary()` function t
 summary(penguins$flipper_length_mm)
 ```
 
-R gives us 6 numbers: the minimum (shortest) flipper length, the first quartile, the median (middle) flipper length, the mean (average) flipper length, the third quartile, and the maximum (longest) flipper length. 
-
 You can always get just the one numerical summary you're looking for using the function for that specific summary:
+
 ```{r summaryFunctions, error = T}
 min(penguins$flipper_length_mm)
 mean(penguins$flipper_length_mm)
@@ -172,11 +167,13 @@ The most useful feature of help is a list of a function's argumendsjdsts what th
 ## `boxplot(data_set_name$data_set_variable)`
 - creates a boxplot of a quantitative variable
 
-## `main = "Title of Your Graph in Double Quotes"`
+## Important plotting arguments
+
+### `main = "Title of Your Graph in Double Quotes"`
 - graph title that must be inside a set of double quotes
 
-## `xlab = "x-axis Label of Your Graph in Double Quotes"`
+### `xlab = "x-axis Label of Your Graph in Double Quotes"`
 - the x- (horizontal) axis label that must be inside a set of double quotes
 
-## `ylab = "y-axis Label of Your Graph in Double Quotes"`
+### `ylab = "y-axis Label of Your Graph in Double Quotes"`
 - the y- (vertical) axis label that must be inside a set of double quotes
